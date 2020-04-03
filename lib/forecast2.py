@@ -13,7 +13,7 @@ from .model2 import fitModel
 
 
 
-thres = 1000
+thres = 2000
 window = 7 # also defined in model
 dispDays = 7
 predDays = 3
@@ -30,6 +30,7 @@ def updatedata():
     ushist['United States'] = []
     # Get data
     url = r'https://confirmedmap.us-coronavirus.info/date.json'
+    url = r'https://covid19.qmshaophoto.com/date.json'
     response = json.loads(requests.get(url, verify=True ).text)
     for r in response:
         rec = r['records']
@@ -86,13 +87,13 @@ def updatedata():
     
     with open(r'assets/ErrorMap.json', 'w') as f:
         json.dump(errorMap, f)
-    return (servereStates, stateRes, lastDay)
+    return (servereStates, stateRes, lastDay, thres)
 
 
 
 
 # Return provinces over thre cases
 def getData():
-    return (servereStates, stateRes, lastDay)
+    return (servereStates, stateRes, lastDay, thres)
 
 
