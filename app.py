@@ -51,7 +51,7 @@ app.index_string = """<!DOCTYPE html>
 server = app.server
 
 # data
-severeStates, stateRes, lastDay = forecast.updatedata()
+severeStates, stateRes, lastDay, thres = forecast.updatedata()
 severeProvLabel = [{"label": a, "value": a} for a in severeStates]
 totDays = 16 # equal to window + dispDays - 1 + predDays for now
 
@@ -67,7 +67,7 @@ valDays = 0
 dispDays = 7
 prediction_figure = generateGraph(severeStates[0], dates, stateRes[severeStates[0]], totDays, valDays)
 
-app.title = 'U.S. Confirmed Case Forecast by Coronavirus News Aggregator'
+app.title = 'U.S. Confirmed Case Forecast'
 
 # HTML
 app.layout = html.Div(
@@ -91,15 +91,15 @@ app.layout = html.Div(
                                         "color": "inherit",
                                     },
                                 ),
-                                html.A(
-                                    "by Coronavirus News Aggregator", href="https://us-coronavirus.info/",
-                                    style={
-                                        "text-decoration": "none",
-                                        "color": "inherit",
-                                        "padding": "10px",
-                                        "font-size": "50%",
-                                    },
-                                )
+                                # html.A(
+                                #     "by Coronavirus News Aggregator", href="https://us-coronavirus.info/",
+                                #     style={
+                                #         "text-decoration": "none",
+                                #         "color": "inherit",
+                                #         "padding": "10px",
+                                #         "font-size": "50%",
+                                #     },
+                                # )
                             ],
                         ),
                     ],
@@ -122,7 +122,7 @@ app.layout = html.Div(
                                     id="first-card",
                                     children=[
                                         drc.NamedDropdown(
-                                            name="States over 1000 Cases",
+                                            name="States over " + str(thres) + " Cases",
                                             id="dropdown-select-dataset",
                                             options = severeProvLabel,
                                             clearable=False,
@@ -217,7 +217,7 @@ def updateGraph(name, valDays):
     prediction_figure = generateGraph(name, dates, stateRes[name],totDays,abs(valDays))
 
     return dcc.Graph(id="graph-prediction", figure=prediction_figure)
-
+# 
 @app.callback(
     Output("forecast-lb", "value"),
     [
