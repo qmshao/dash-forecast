@@ -30,7 +30,7 @@ def updatedata():
     ushist['United States'] = []
     # Get data
     url = r'https://confirmedmap.us-coronavirus.info/date.json'
-    # url = r'https://covid19.qmshaophoto.com/date.json'
+    url = r'https://covid19.qmshaophoto.com/date.json'
     response = json.loads(requests.get(url, verify=True ).text)
     for r in response:
         rec = r['records']
